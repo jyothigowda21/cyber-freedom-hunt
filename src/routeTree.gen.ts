@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Stage1RouteImport } from './routes/stage-1'
+import { Route as Stage2RouteImport } from './routes/stage-2'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Stage1Route = Stage1RouteImport.update({
+  id: '/stage-1',
+  path: '/stage-1',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Stage2Route = Stage2RouteImport.update({
+  id: '/stage-2',
+  path: '/stage-2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/stage-1': typeof Stage1Route
+  '/stage-2': typeof Stage2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/stage-1': typeof Stage1Route
+  '/stage-2': typeof Stage2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/stage-1': typeof Stage1Route
+  '/stage-2': typeof Stage2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/stage-1' | '/stage-2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/stage-1' | '/stage-2'
+  id: '__root__' | '/' | '/stage-1' | '/stage-2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Stage1Route: typeof Stage1Route
+  Stage2Route: typeof Stage2Route
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stage-1': {
+      id: '/stage-1'
+      path: '/stage-1'
+      fullPath: '/stage-1'
+      preLoaderRoute: typeof Stage1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stage-2': {
+      id: '/stage-2'
+      path: '/stage-2'
+      fullPath: '/stage-2'
+      preLoaderRoute: typeof Stage2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Stage1Route: Stage1Route,
+  Stage2Route: Stage2Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

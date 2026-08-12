@@ -91,7 +91,7 @@ function Stage1() {
     );
   }
 
-  const q = STAGE1_QUESTIONS[index];
+  const q = STAGE1_QUESTIONS[index]!;
   const progress = ((index + (locked ? 1 : 0)) / TOTAL) * 100;
 
   const submit = () => {

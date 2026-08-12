@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Stage1RouteImport } from './routes/stage-1'
 import { Route as Stage2RouteImport } from './routes/stage-2'
+import { Route as Stage3RouteImport } from './routes/stage-3'
+import { Route as Stage4RouteImport } from './routes/stage-4'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +30,53 @@ const Stage2Route = Stage2RouteImport.update({
   path: '/stage-2',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Stage3Route = Stage3RouteImport.update({
+  id: '/stage-3',
+  path: '/stage-3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Stage4Route = Stage4RouteImport.update({
+  id: '/stage-4',
+  path: '/stage-4',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/stage-1': typeof Stage1Route
   '/stage-2': typeof Stage2Route
+  '/stage-3': typeof Stage3Route
+  '/stage-4': typeof Stage4Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/stage-1': typeof Stage1Route
   '/stage-2': typeof Stage2Route
+  '/stage-3': typeof Stage3Route
+  '/stage-4': typeof Stage4Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/stage-1': typeof Stage1Route
   '/stage-2': typeof Stage2Route
+  '/stage-3': typeof Stage3Route
+  '/stage-4': typeof Stage4Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stage-1' | '/stage-2'
+  fullPaths: '/' | '/stage-1' | '/stage-2' | '/stage-3' | '/stage-4'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stage-1' | '/stage-2'
-  id: '__root__' | '/' | '/stage-1' | '/stage-2'
+  to: '/' | '/stage-1' | '/stage-2' | '/stage-3' | '/stage-4'
+  id: '__root__' | '/' | '/stage-1' | '/stage-2' | '/stage-3' | '/stage-4'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Stage1Route: typeof Stage1Route
   Stage2Route: typeof Stage2Route
+  Stage3Route: typeof Stage3Route
+  Stage4Route: typeof Stage4Route
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Stage2RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stage-3': {
+      id: '/stage-3'
+      path: '/stage-3'
+      fullPath: '/stage-3'
+      preLoaderRoute: typeof Stage3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stage-4': {
+      id: '/stage-4'
+      path: '/stage-4'
+      fullPath: '/stage-4'
+      preLoaderRoute: typeof Stage4RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +123,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Stage1Route: Stage1Route,
   Stage2Route: Stage2Route,
+  Stage3Route: Stage3Route,
+  Stage4Route: Stage4Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

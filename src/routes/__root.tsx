@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CompetitionGuard } from "@/components/CompetitionGuard";
 import {
   Outlet,
   Link,
@@ -119,14 +120,14 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <CompetitionGuard>
+        <Outlet />
+      </CompetitionGuard>
     </QueryClientProvider>
   );
 }

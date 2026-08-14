@@ -1,7 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const LOCK_KEY = "cybotixx_competition_locked";
+const LOCK_KEY_COUNT = "cybotixx_competition_lock_count";
 
 function isCompetitionRoute(pathname: string) {
   return /^\/stage-[1-5]\/?$/.test(pathname);
@@ -29,11 +31,18 @@ export function CompetitionGuard({ children }: { children: ReactNode }) {
     }
 
     const lockCompetition = () => {
-      // Lock ONLY this browser's local storage.
-      window.localStorage.setItem(LOCK_KEY, "true");
+      // Increment the lock count for this browser.
+      const currentCount = parseInt(window.localStorage.getItem(LOCK_KEY_COUNT) || "0");
+      window.localStorage.setItem(LOCK_KEY_COUNT, String(currentCount + 1));
 
-      // This unmounts the stage and therefore stops its timer.
-      setLocked(true);
+      if (window.localStorage.getItem(LOCK_KEY_COUNT) === "2") {
+        // Lock ONLY this browser's local storage.
+        window.localStorage.setItem(LOCK_KEY, "true");
+
+        // This unmounts the stage and therefore stops its timer.
+        setLocked(true);
+      }
+      toast("You have left the competition window. Please do not switch tabs or windows during the competition. If you do, your attempt will be locked.");
     };
 
     const handleVisibilityChange = () => {

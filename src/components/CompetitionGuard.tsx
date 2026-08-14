@@ -33,15 +33,17 @@ export function CompetitionGuard({ children }: { children: ReactNode }) {
     const lockCompetition = () => {
       // Increment the lock count for this browser.
       const currentCount = parseInt(window.localStorage.getItem(LOCK_KEY_COUNT) || "0");
-      window.localStorage.setItem(LOCK_KEY_COUNT, String(currentCount + 1));
-
-      if (window.localStorage.getItem(LOCK_KEY_COUNT) === "2") {
+      if (currentCount + 1 == 2) {
         // Lock ONLY this browser's local storage.
         window.localStorage.setItem(LOCK_KEY, "true");
 
         // This unmounts the stage and therefore stops its timer.
         setLocked(true);
+        return;
       }
+
+      window.localStorage.setItem(LOCK_KEY_COUNT, String(currentCount + 1));
+
       toast("You have left the competition window. Please do not switch tabs or windows during the competition. If you do, your attempt will be locked.");
     };
 
